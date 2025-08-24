@@ -463,11 +463,23 @@ Choose an option below to get started:
     codes_text += f"\n📊 **Total:** {len(generated_codes)} codes generated"
     
     await update.message.reply_text(codes_text, parse_mode='Markdown')
-          async def broadcast_command(self, update: Update, context: ContextTypes.DEFAULT_TYPE):
-        """Handle /broadcast command (Admin only)"""
-        if not await self.is_admin(update.effective_user.id):
-            await update.message.reply_text("❌ This command is for admins only.")
-            return
+
+
+async def broadcast_command(self, update: Update, context: ContextTypes.DEFAULT_TYPE):
+    """Handle /broadcast command (Admin only)"""
+    if not await self.is_admin(update.effective_user.id):
+        await update.message.reply_text("❌ This command is for admins only.")
+        return
+    
+    if not context.args:
+        await update.message.reply_text(
+            "❌ Please provide a message to broadcast!\n\n"
+            "**Usage:** `/broadcast <message>`\n"
+            "**Example:** `/broadcast New codes available!`",
+            parse_mode='Markdown'
+        )
+        retu
+        rn
         
         if not context.args:
             await update.message.reply_text(
