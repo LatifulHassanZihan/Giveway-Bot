@@ -409,59 +409,61 @@ Choose an option below to get started:
             parse_mode='Markdown'
         )
     
-    async def gencode_command(self, update: Update, context: ContextTypes.DEFAULT_TYPE):
-        """Handle /gencode command (Admin only)"""
-        if not await self.is_admin(update.effective_user.id):
-            await update.message.reply_text("❌ This command is for admins only.")
-            return
-        
-        if len(context.args) < 2:
-            await update.message.reply_text(
-                "❌ Please provide number and prefix!\n\n"
-                "**Usage:** `/gencode <number> <prefix>`\n"
-                "**Example:** `/gencode 5 GIFT`",
-                parse_mode='Markdown'
-            )
-            return
-   try:
-       num = int(context.args[0])         # ✅ indented 4 spaces
-       prefix = context.args[1].upper()
-   except ValueError:
-       await update.message.reply_text("❌ Number must be a valid integer!")
-       return
-
-# use num and prefix here safely
-
-
-        
-        if num > 50:
-            await update.message.reply_text("❌ Maximum 50 codes can be generated at once!")
-            return
-        
-        generated_codes = []
-        for _ in range(num):
-            suffix = ''.join(random.choices(string.ascii_uppercase + string.digits, k=6))
-            code = f"{prefix}{suffix}"
-            
-            # Ensure code is unique
-            while code in self.codes:
-                suffix = ''.join(random.choices(string.ascii_uppercase + string.digits, k=6))
-                code = f"{prefix}{suffix}"
-            
-            self.codes[code] = True
-            generated_codes.append(code)
-        
-        self.save_data()
-        
-        codes_text = "✅ **Generated Codes:**\n\n"
-        for code in generated_codes:
-            codes_text += f"`{code}`\n"
-        
-        codes_text += f"\n📊 **Total:** {len(generated_codes)} codes generated"
-        
-        await update.message.reply_text(codes_text, parse_mode='Markdown')
+    
     
     async def broadcast_command(self, update: Update, context: ContextTypes.DEFAULT_TYPE):
+        """Handle /broadcast command (Admin only)"""
+        if not await self.is_admin(update.effective_user.id):
+      async def gencode_command(self, update: Update, context: ContextTypes.DEFAULT_TYPE):
+    """Handle /gencode command (Admin only)"""
+    if not await self.is_admin(update.effective_user.id):
+        await update.message.reply_text("❌ This command is for admins only.")
+        return
+    
+    if len(context.args) < 2:
+        await update.message.reply_text(
+            "❌ Please provide number and prefix!\n\n"
+            "**Usage:** `/gencode <number> <prefix>`\n"
+            "**Example:** `/gencode 5 GIFT`",
+            parse_mode='Markdown'
+        )
+        return
+
+    # ✅ Properly indented try/except
+    try:
+        num = int(context.args[0])
+        prefix = context.args[1].upper()
+    except ValueError:
+        await update.message.reply_text("❌ Number must be a valid integer!")
+        return
+
+    if num > 50:
+        await update.message.reply_text("❌ Maximum 50 codes can be generated at once!")
+        return
+    
+    generated_codes = []
+    for _ in range(num):
+        suffix = ''.join(random.choices(string.ascii_uppercase + string.digits, k=6))
+        code = f"{prefix}{suffix}"
+        
+        # Ensure code is unique
+        while code in self.codes:
+            suffix = ''.join(random.choices(string.ascii_uppercase + string.digits, k=6))
+            code = f"{prefix}{suffix}"
+        
+        self.codes[code] = True
+        generated_codes.append(code)
+    
+    self.save_data()
+    
+    codes_text = "✅ **Generated Codes:**\n\n"
+    for code in generated_codes:
+        codes_text += f"`{code}`\n"
+    
+    codes_text += f"\n📊 **Total:** {len(generated_codes)} codes generated"
+    
+    await update.message.reply_text(codes_text, parse_mode='Markdown')
+          async def broadcast_command(self, update: Update, context: ContextTypes.DEFAULT_TYPE):
         """Handle /broadcast command (Admin only)"""
         if not await self.is_admin(update.effective_user.id):
             await update.message.reply_text("❌ This command is for admins only.")
