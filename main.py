@@ -424,12 +424,15 @@ Choose an option below to get started:
             )
             return
         
-        try:
+    try:
     num = int(context.args[0])
     prefix = context.args[1].upper()
 except ValueError:
     await update.message.reply_text("❌ Number must be a valid integer!")
     return
+
+# use num and prefix here safely
+
 
         
         if num > 50:
