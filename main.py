@@ -414,7 +414,7 @@ Choose an option below to get started:
     async def broadcast_command(self, update: Update, context: ContextTypes.DEFAULT_TYPE):
         """Handle /broadcast command (Admin only)"""
         if not await self.is_admin(update.effective_user.id):
-      async def gencode_command(self, update: Update, context: ContextTypes.DEFAULT_TYPE):
+    async def gencode_command(self, update: Update, context: ContextTypes.DEFAULT_TYPE):
     """Handle /gencode command (Admin only)"""
     if not await self.is_admin(update.effective_user.id):
         await update.message.reply_text("❌ This command is for admins only.")
